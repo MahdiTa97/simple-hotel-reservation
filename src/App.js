@@ -26,6 +26,12 @@ function App() {
               <li className="hover:text-red-500 font-light">
                 <Link to="/Booking">Booking</Link>
               </li>
+              <li className="hover:text-red-500 font-light">
+                <Link to="/Booking">Personnel</Link>
+              </li>
+              <li className="hover:text-red-500 font-light">
+                <Link to="/Booking">Tel</Link>
+              </li>
             </ul>
           </nav>
         </header>

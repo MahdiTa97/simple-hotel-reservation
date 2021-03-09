@@ -34,9 +34,12 @@ const From = (props) => {
             </div>
           </>
         ))}
-        <div class="border-t mt-6 pt-3">
+        <div class="border-t mt-6 pt-3 flex justify-between w-full">
           <button class="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner hover:bg-blue-700 transition-all duration-300">
             Search
+          </button>
+          <button class="rounded text-gray-100 px-3 py-1 bg-green-500 hover:shadow-inner hover:bg-green-700 transition-all duration-300">
+            Add
           </button>
         </div>
       </div>

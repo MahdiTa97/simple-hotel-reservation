@@ -34,7 +34,7 @@ export default function Table(props) {
               <div className="text-sm text-gray-900 text-center">{item}</div>
             </td>
           ))}
-          <td className="px-6 py-4 whitespace-nowrap absolute right-10  hover:invisible">
+          <td className="px-6 py-4 whitespace-nowrap absolute left-5 hover:invisible">
             <button
               className="text-xl text-red-500 text-center hover:text-red-800"
               onClick={(e) => {
@@ -43,6 +43,15 @@ export default function Table(props) {
               }}
             >
               ❌
+            </button>
+            <button
+              className="text-xl text-green-500 text-center hover:text-green-800"
+              onClick={(e) => {
+                e.preventDefault();
+                // onUpdate(rows);
+              }}
+            >
+              🖋️
             </button>
           </td>
         </tr>
