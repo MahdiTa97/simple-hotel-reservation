@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiPath = "http://localhost:4000";
+const apiPath = "http://localhost:5000";
 
 const methods = ["get", "post", "put", "patch", "delete"];
 

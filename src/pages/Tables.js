@@ -1,74 +1,87 @@
 import React from "react";
-import useHotels from "../hooks";
+import { SpinnerLoader, Table } from "../components";
+import {
+  useHotels,
+  useRooms,
+  useGuests,
+  usePayments,
+  useBookings,
+} from "../hooks/get-hooks";
 
 const Tables = () => {
-  const { status, data, error, isFetching, isLoading } = useHotels();
+  const {
+    data: dataHotels,
+    error: errorHotels,
+    isLoading: isLoadingHotels,
+  } = useHotels();
+
+  const {
+    data: dataRooms,
+    error: errorRooms,
+    isLoading: isLoadingRooms,
+  } = useRooms();
+
+  const {
+    data: dataGuests,
+    error: errorGuests,
+    isLoading: isLoadingGuests,
+  } = useGuests();
+
+  const {
+    data: dataPayments,
+    error: errorPayments,
+    isLoading: isLoadingPayments,
+  } = usePayments();
+
+  const {
+    data: dataBookings,
+    error: errorBookings,
+    isLoading: isLoadingBookings,
+  } = useBookings();
 
   return (
     <div className="container mx-auto flex flex-col justify-items-center justify-center items-center">
-      <h1 className="text-3xl font-semibold text-gray-700 text-center p-7 cursor-default capitalize">
-        <div>This is table page</div>
-      </h1>
-      {!isLoading && !error ? <Table data={data} /> : null}
+      <div>
+        <h1 className="text-3xl font-semibold text-gray-700 text-center p-7 cursor-default capitalize">
+          Hotels
+        </h1>
+        {isLoadingHotels && !errorHotels ? <SpinnerLoader /> : null}
+        {!isLoadingHotels && !errorHotels ? <Table data={dataHotels} /> : null}
+      </div>
+      <div>
+        <h1 className="text-3xl font-semibold text-gray-700 text-center p-7 cursor-default capitalize">
+          Rooms
+        </h1>
+        {isLoadingRooms && !errorRooms ? <SpinnerLoader /> : null}
+        {!isLoadingRooms && !errorRooms ? <Table data={dataRooms} /> : null}
+      </div>
+      <div>
+        <h1 className="text-3xl font-semibold text-gray-700 text-center p-7 cursor-default capitalize">
+          Guests
+        </h1>
+        {isLoadingGuests && !errorGuests ? <SpinnerLoader /> : null}
+        {!isLoadingGuests && !errorGuests ? <Table data={dataGuests} /> : null}
+      </div>
+      <div>
+        <h1 className="text-3xl font-semibold text-gray-700 text-center p-7 cursor-default capitalize">
+          Payments
+        </h1>
+        {isLoadingPayments && !errorPayments ? <SpinnerLoader /> : null}
+        {!isLoadingPayments && !errorPayments ? (
+          <Table data={dataPayments} />
+        ) : null}
+      </div>
+      <div>
+        <h1 className="text-3xl font-semibold text-gray-700 text-center p-7 cursor-default capitalize">
+          Bookings
+        </h1>
+        {isLoadingBookings && !errorBookings ? <SpinnerLoader /> : null}
+        {!isLoadingBookings && !errorBookings ? (
+          <Table data={dataBookings} />
+        ) : null}
+      </div>
     </div>
   );
 };
 
 export default Tables;
-
-function Table(props) {
-  const { data } = props;
-
-  const Header = (props) => {
-    const { rows } = props;
-
-    return (
-      <thead className="bg-gray-50">
-        <tr>
-          {rows.map((item, index) => (
-            <th
-              key={index}
-              scope="col"
-              className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              {item}
-            </th>
-          ))}
-        </tr>
-      </thead>
-    );
-  };
-
-  const Body = (props) => {
-    const { rows } = props;
-
-    return (
-      <tbody className="bg-white divide-y divide-gray-200">
-        <tr>
-          {Object.values(rows).map((item, index) => (
-            <td key={index} className="px-6 py-4 whitespace-nowrap">
-              <div className="text-sm text-gray-900 text-center">{item}</div>
-            </td>
-          ))}
-        </tr>
-      </tbody>
-    );
-  };
-
-  return (
-    <div className="flex flex-col">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <table className="min-w-full divide-y divide-gray-200">
-              <Header rows={Object.keys(data[0])} />
-              {data.map((row, index) => (
-                <Body rows={row} />
-              ))}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}

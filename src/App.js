@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import Tables from "./pages/Tables";
+import { Booking, Guest, Hotel, Payment, Room, Tables } from "./pages";
 
 function App() {
   return (
@@ -11,15 +11,42 @@ function App() {
               <li className="hover:text-red-500">
                 <Link to="/">Home</Link>
               </li>
-              <li className="hover:text-red-500">
-                <Link to="/tables">Tables</Link>
+              <li className="hover:text-red-500 font-light">
+                <Link to="/Hotel">Hotel</Link>
+              </li>
+              <li className="hover:text-red-500 font-light">
+                <Link to="/Room">Room</Link>
+              </li>
+              <li className="hover:text-red-500 font-light">
+                <Link to="/Guest">Guest</Link>
+              </li>
+              <li className="hover:text-red-500 font-light">
+                <Link to="/Payment">Payment</Link>
+              </li>
+              <li className="hover:text-red-500 font-light">
+                <Link to="/Booking">Booking</Link>
               </li>
             </ul>
           </nav>
         </header>
         <Switch>
-          <Route path="/tables">
+          <Route exact path="/">
             <Tables />
+          </Route>
+          <Route path="/hotel">
+            <Hotel />
+          </Route>
+          <Route path="/room">
+            <Room />
+          </Route>
+          <Route path="/guest">
+            <Guest />
+          </Route>
+          <Route path="/payment">
+            <Payment />
+          </Route>
+          <Route path="/booking">
+            <Booking />
           </Route>
         </Switch>
       </div>
