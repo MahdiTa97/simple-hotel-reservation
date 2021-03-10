@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Table(props) {
-  const { data, onDelete, setDefaultValues, onOpenModal } = props;
+  const { data, onDelete, setDefaultValues, onOpenModal, notEdit } = props;
 
   const Header = (props) => {
     const { rows } = props;
@@ -34,27 +34,29 @@ export default function Table(props) {
               <div className="text-sm text-gray-900 text-center">{item}</div>
             </td>
           ))}
-          <td className="px-6 py-4 whitespace-nowrap absolute left-5 hover:invisible">
-            <button
-              className="text-xl text-red-500 text-center hover:text-red-800"
-              onClick={(e) => {
-                e.preventDefault();
-                onDelete(rows);
-              }}
-            >
-              ❌
-            </button>
-            <button
-              className="text-xl text-green-500 text-center hover:text-green-800"
-              onClick={(e) => {
-                e.preventDefault();
-                onOpenModal();
-                setDefaultValues(rows);
-              }}
-            >
-              🖋️
-            </button>
-          </td>
+          {notEdit ? null : (
+            <td className="px-6 py-4 whitespace-nowrap absolute left-5 hover:invisible">
+              <button
+                className="text-xl text-red-500 text-center hover:text-red-800"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onDelete(rows);
+                }}
+              >
+                ❌
+              </button>
+              <button
+                className="text-xl text-green-500 text-center hover:text-green-800"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onOpenModal();
+                  setDefaultValues(rows);
+                }}
+              >
+                🖋️
+              </button>
+            </td>
+          )}
         </tr>
       </tbody>
     );

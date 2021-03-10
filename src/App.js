@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { Booking, Guest, Hotel, Payment, Room, Tables } from "./pages";
+import Report from "./pages/Report";
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
               <li className="hover:text-red-500 font-light">
                 <Link to="/Booking">Tel</Link>
               </li>
+              <li className="text-red-700 hover:text-gray-800 font-light">
+                <Link to="/report">REPORTS</Link>
+              </li>
             </ul>
           </nav>
         </header>
@@ -53,6 +57,9 @@ function App() {
           </Route>
           <Route path="/booking">
             <Booking />
+          </Route>
+          <Route path="/report">
+            <Report />
           </Route>
         </Switch>
       </div>

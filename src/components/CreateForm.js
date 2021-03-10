@@ -25,7 +25,7 @@ const CreateForm = (props) => {
         Close
       </button>
       <h2 className="text-3xl font-extrabold text-center md:p-7 my-7 text-gray-700 cursor-default capitalize">
-        Create {tableName}
+        {isUpdate ? "Update" : "Add"} {tableName}
       </h2>
       <div className="relative text-gray-700">
         <form onSubmit={handleSubmit(submitter)}>
