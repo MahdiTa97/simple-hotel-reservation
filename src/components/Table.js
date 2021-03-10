@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Table(props) {
-  const { data, onDelete } = props;
+  const { data, onDelete, setDefaultValues, onOpenModal } = props;
 
   const Header = (props) => {
     const { rows } = props;
@@ -48,7 +48,8 @@ export default function Table(props) {
               className="text-xl text-green-500 text-center hover:text-green-800"
               onClick={(e) => {
                 e.preventDefault();
-                // onUpdate(rows);
+                onOpenModal();
+                setDefaultValues(rows);
               }}
             >
               🖋️

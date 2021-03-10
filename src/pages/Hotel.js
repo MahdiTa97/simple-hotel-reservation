@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { From, SpinnerLoader, Table } from "../components";
-import { useDeleteHotel } from "../hooks/delete-hooks";
+import { CreateForm, SearchForm } from "../components";
+import TableData from "../components/TableData";
+import { createFieldsHotel, searchFieldsHotel } from "../constants/fields";
 import { useHotels } from "../hooks/get-hooks";
-import { client } from "../utils";
+import { onCreateHotel, onDeleteHotel, onUpdateHotel } from "../utils/requests";
 
 const Hotel = () => {
   const [state, setState] = useState();
-  const items = ["hotelNo", "hotelName", "city"];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [defaultValues, setDefaultValues] = useState(false);
+  const tableName = "Hotel";
 
   const {
     data: dataHotels,
@@ -15,33 +18,60 @@ const Hotel = () => {
     refetch,
   } = useHotels(state);
 
+  const onSearchHotel = (params) => {
+    setState(params);
+  };
+
+  const onDelete = (params) => {
+    onDeleteHotel(params);
+    refetch(state).then((res) => console.log(res));
+  };
+  const onAdd = (params) => {
+    onCreateHotel(params);
+    refetch(state).then((res) => console.log(res));
+  };
+  const onUpdate = (params) => {
+    onUpdateHotel(params);
+    refetch(state).then((res) => console.log(res));
+  };
+
   useEffect(() => {
     refetch(state).then((res) => console.log(res));
-  }, [state]);
-
-  function onDelete(parameters) {
-    client
-      .post(`/deletehotel`, {
-        data: {
-          hotelNo: parameters.hotelno,
-        },
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
-  }
+  }, [refetch, state]);
 
   return (
     <div className="container mx-auto flex flex-col justify-items-center justify-center items-center">
-      <From setState={setState} items={items} />
-      <div className="border-t-2">
-        <h1 className="text-3xl font-semibold text-gray-700 text-center p-7 cursor-default capitalize">
-          Hotels
-        </h1>
-        {isLoadingHotels && !errorHotels ? <SpinnerLoader /> : null}
-        {!isLoadingHotels && !errorHotels ? (
-          <Table data={dataHotels} onDelete={onDelete} />
-        ) : null}
-      </div>
+      <SearchForm
+        onSubmit={onSearchHotel}
+        items={searchFieldsHotel}
+        onOpenModal={() => {
+          setDefaultValues(null);
+          setIsModalOpen(true);
+        }}
+      />
+      <TableData
+        tableName={tableName}
+        isLoading={isLoadingHotels}
+        error={errorHotels}
+        data={dataHotels}
+        onDelete={onDelete}
+        setDefaultValues={setDefaultValues}
+        onOpenModal={() => {
+          setIsModalOpen(true);
+        }}
+      />
+
+      <CreateForm
+        onSubmit={defaultValues ? onUpdate : onAdd}
+        isUpdate={defaultValues ? true : false}
+        items={createFieldsHotel}
+        isModalOpen={isModalOpen}
+        closeModal={() => {
+          setIsModalOpen(false);
+        }}
+        tableName={tableName}
+        defaultValues={defaultValues}
+      />
     </div>
   );
 };

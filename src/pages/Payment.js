@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { From, SpinnerLoader, Table } from "../components";
+import { CreateForm, SearchForm } from "../components";
+import TableData from "../components/TableData";
+import { createFieldsPayment, searchFieldsPayment } from "../constants/fields";
 import { usePayments } from "../hooks/get-hooks";
-import { client } from "../utils";
+import {
+  onCreatePayment,
+  onDeletePayment,
+  onUpdatePayment,
+} from "../utils/requests";
 
 const Payment = () => {
   const [state, setState] = useState();
-  const items = ["paymentNo", "paymentPrice", "paymentType", "paymentDate"];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [defaultValues, setDefaultValues] = useState(false);
+  const tableName = "Payment";
 
   const {
     data: dataPayments,
@@ -14,33 +22,60 @@ const Payment = () => {
     refetch,
   } = usePayments(state);
 
+  const onSearchPayment = (params) => {
+    setState(params);
+  };
+
+  const onDelete = (params) => {
+    onDeletePayment(params);
+    refetch(state).then((res) => console.log(res));
+  };
+  const onAdd = (params) => {
+    onCreatePayment(params);
+    refetch(state).then((res) => console.log(res));
+  };
+  const onUpdate = (params) => {
+    onUpdatePayment(params);
+    refetch(state).then((res) => console.log(res));
+  };
+
   useEffect(() => {
     refetch(state).then((res) => console.log(res));
-  }, [state]);
-
-  function onDelete(parameters) {
-    client
-      .post(`/deletepayment`, {
-        data: {
-          paymentNo: parameters.paymentno,
-        },
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
-  }
+  }, [refetch, state]);
 
   return (
     <div className="container mx-auto flex flex-col justify-items-center justify-center items-center">
-      <From setState={setState} items={items} />
-      <div className="border-t-2">
-        <h1 className="text-3xl font-semibold text-gray-700 text-center p-7 cursor-default capitalize">
-          Payments
-        </h1>
-        {isLoadingPayments && !errorPayments ? <SpinnerLoader /> : null}
-        {!isLoadingPayments && !errorPayments ? (
-          <Table data={dataPayments} onDelete={onDelete} />
-        ) : null}
-      </div>
+      <SearchForm
+        onSubmit={onSearchPayment}
+        items={searchFieldsPayment}
+        onOpenModal={() => {
+          setDefaultValues(null);
+          setIsModalOpen(true);
+        }}
+      />
+      <TableData
+        tableName={tableName}
+        isLoading={isLoadingPayments}
+        error={errorPayments}
+        data={dataPayments}
+        onDelete={onDelete}
+        setDefaultValues={setDefaultValues}
+        onOpenModal={() => {
+          setIsModalOpen(true);
+        }}
+      />
+
+      <CreateForm
+        onSubmit={defaultValues ? onUpdate : onAdd}
+        isUpdate={defaultValues ? true : false}
+        items={createFieldsPayment}
+        isModalOpen={isModalOpen}
+        closeModal={() => {
+          setIsModalOpen(false);
+        }}
+        tableName={tableName}
+        defaultValues={defaultValues}
+      />
     </div>
   );
 };

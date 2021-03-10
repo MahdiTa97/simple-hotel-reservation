@@ -1,5 +1,6 @@
 import Table from "./Table";
 import SpinnerLoader from "./SpinnerLoader";
-import From from "./From";
+import SearchForm from "./SearchForm";
+import CreateForm from "./CreateForm";
 
-export { Table, SpinnerLoader, From };
+export { Table, SpinnerLoader, SearchForm, CreateForm };
